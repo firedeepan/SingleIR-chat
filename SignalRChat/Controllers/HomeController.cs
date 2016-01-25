@@ -28,8 +28,15 @@ namespace SignalRChat.Controllers
         }
 
         public ActionResult Chat()
-        {
+        {            
             return View();
+        }
+
+        public ActionResult SetIdentity(string username)
+        {
+            this.Session["username"] = username;
+            var test = this.Session["username"];
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
     }
 }

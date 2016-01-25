@@ -8,7 +8,7 @@
     <input type="hidden" id="displayname" />
     <ul id="discussion"></ul>
 </div>
-@section scripts {
+@section scripts { 
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
     <!--Reference the SignalR library. -->
@@ -27,10 +27,11 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            var me = prompt('Enter your name:', '');
             // Set initial focus to message input box.
-            $('#message').focus();
-            // Start the connection.
+
+            // Start the connection.           
+            $.connection.hub.qs = { 'username': me };
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
@@ -39,6 +40,10 @@
                     $('#message').val('').focus();
                 });
             });
+
+            $("#displayname").val(prompt('Send to:', ''));
+            // Set initial focus to message input box.           
+            $('#message').focus();
         });
         // This optional function html-encodes messages for display in the page.
         function htmlEncode(value) {
